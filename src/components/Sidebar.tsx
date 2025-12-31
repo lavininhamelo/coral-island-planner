@@ -76,6 +76,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
           })}
         </ul>
       </div>
+
+         
+      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+        <ul className="text-xs text-gray-700 list-disc list-inside py-1">
+          By <a href="https://laviniamelo.com" className="underline">Lavinia Melo </a> 
+          in <a href="https://github.com/lavininhamelo/coral-island-planner" ><img src="/github.svg" alt="Github Project" className="inline w-4 h-4 ml-1 rounded-full" /></a>
+        </ul>
+      </div>
     </div>
   );
 };
