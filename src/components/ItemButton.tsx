@@ -1,8 +1,8 @@
 import React from 'react';
-import type { Item } from '../types';
+import type { ItemV2 } from '../types';
 
 type ItemButtonProps = {
-  item: Item;
+  item: ItemV2;
   isSelected: boolean;
   onSelect: () => void;
 };
@@ -21,7 +21,7 @@ export const ItemButton: React.FC<ItemButtonProps> = ({ item, isSelected, onSele
         <span className="text-2xl">{item.icon}</span>
         <div className="flex-1">
           <div className="font-medium text-sm">{item.name}</div>
-          <div className="text-xs text-gray-500">Range: {item.size}×{item.size}</div>
+          <div className="text-xs text-gray-500">Range: {item.width}×{item.height}</div>
         </div>
       </div>
     </button>

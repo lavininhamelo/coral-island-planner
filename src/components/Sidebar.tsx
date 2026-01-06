@@ -1,14 +1,14 @@
 import React from 'react';
 import { ItemButton } from './ItemButton';
-import type { Item, PlacedItem as PlacedItemType } from '../types';
+import type { ItemV2, PlacedItem as PlacedItemType } from '../types';
 
 type SidebarProps = {
-  items: Item[];
-  selectedItem: Item | null;
+  items: ItemV2[];
+  selectedItem: ItemV2 | null;
   placedItems: PlacedItemType[];
   gridWidth: number;
   gridHeight: number;
-  onSelectItem: (item: Item) => void;
+  onSelectItem: (item: ItemV2) => void;
   onDeselectItem: () => void;
   onClearAll: () => void;
   deleteMode: boolean;
@@ -26,9 +26,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleDeleteMode,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 lg:w-64 shrink-0">
+    <div className="bg-white rounded-lg shadow-lg p-4 lg:w-64 shrink-0 h-[calc(100vh-40px)] overflow-y-auto">
       <h2 className="text-xl font-semibold mb-3 text-gray-700">Items</h2>
-      <div className="space-y-1">
+      <div className="space-y-1 h-5/12 overflow-y-auto">
         {items.map(item => (
           <ItemButton
             key={item.id}
@@ -63,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </button>
 
    
-      <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+      <div className="mt-4 p-3 bg-blue-50 rounded-lg overflow-y-auto h-[100px]">
         <h2 className="text-xs text-gray-700 font-bold">Placed Items List</h2>
         <ul className="text-xs text-gray-700 list-disc list-inside py-1">
           {items.map(item => {

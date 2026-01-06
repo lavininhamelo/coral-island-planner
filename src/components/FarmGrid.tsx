@@ -1,9 +1,9 @@
-import React from 'react';
-import { GridCell } from './GridCell';
-import { PlacedItem } from './PlacedItem';
-import { HoverPreview } from './HoverPreview';
-import { ItemOverlay } from './ItemOverlay';
-import type { Item, PlacedItem as PlacedItemType, Cell } from '../types';
+import React from "react";
+import { GridCell } from "./GridCell";
+import { PlacedItem } from "./PlacedItem";
+import { HoverPreview } from "./HoverPreview";
+import { ItemOverlay } from "./ItemOverlay";
+import type { ItemV2, PlacedItem as PlacedItemType, Cell } from "../types";
 
 type FarmGridProps = {
   gridWidth: number;
@@ -12,7 +12,7 @@ type FarmGridProps = {
   terrainArr: number[][];
   terrainType: Record<number, { type: string; color: string; buildable: boolean }>;
   placedItems: PlacedItemType[];
-  selectedItem: Item | null;
+  selectedItem: ItemV2 | null;
   hoveredCell: Cell | null;
   deleteMode: boolean;
   isHoveredValid: boolean;
@@ -60,68 +60,71 @@ export const FarmGrid: React.FC<FarmGridProps> = ({
       borderLeft: !isCellBuildable(x - 1, y),
     };
   };
-
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 overflow-auto flex-grow">
-      <h2 className="text-xl font-semibold mb-3 text-gray-700">Farm Layout</h2>
-      <div
-        className="relative inline-block border-2 border-gray-400"
-        style={{
-          width: gridWidth * gridSize + 4,
-          height: gridHeight * gridSize + 4,
-        }}
-      >
-        {Array.from({ length: gridHeight }).map((_, y) =>
-          Array.from({ length: gridWidth }).map((_, x) => {
-            const terrainId = terrainArr[y]?.[x] ?? 1;
-            const terrain = terrainType[terrainId as keyof typeof terrainType] ?? terrainType[1];
-            const borderInfo = getBorderInfo(x, y);
-            return (
-              <GridCell
-                key={`${x}-${y}`}
-                x={x}
-                y={y}
-                gridSize={gridSize}
-                terrainColor={terrain.color}
-                isBuildable={terrain.buildable}
-                borderTop={borderInfo.borderTop}
-                borderRight={borderInfo.borderRight}
-                borderBottom={borderInfo.borderBottom}
-                borderLeft={borderInfo.borderLeft}
-                onClick={onCellClick}
-                onMouseEnter={onCellHover}
-                onMouseLeave={onCellHoverLeave}
-              />
-            );
-          })
-        )}
+    <div className="bg-white rounded-lg shadow-lg p-4 h-full flex flex-col">
+      <h2 className="text-xl font-semibold sticky top-0 mb-2 bg-white z-10 text-gray-700">
+        Coral Island - Farm Planner
+      </h2>
 
-        {placedItems.map(item => (
-          <PlacedItem key={`area-${item.id}`} item={item} gridSize={gridSize} />
-        ))}
+      <div className="flex-1 overflow-auto">
+        <div
+          className="relative border-2 border-gray-400"
+          style={{
+            minWidth: gridWidth * gridSize,
+            minHeight: gridHeight * gridSize,
+          }}
+        >
+          {Array.from({ length: gridHeight }).map((_, y) =>
+            Array.from({ length: gridWidth }).map((_, x) => {
+              const terrainId = terrainArr[y]?.[x] ?? 1;
+              const terrain = terrainType[terrainId as keyof typeof terrainType] ?? terrainType[1];
+              const borderInfo = getBorderInfo(x, y);
+              return (
+                <GridCell
+                  key={`${x}-${y}`}
+                  x={x}
+                  y={y}
+                  gridSize={gridSize}
+                  terrainColor={terrain.color}
+                  isBuildable={terrain.buildable}
+                  borderTop={borderInfo.borderTop}
+                  borderRight={borderInfo.borderRight}
+                  borderBottom={borderInfo.borderBottom}
+                  borderLeft={borderInfo.borderLeft}
+                  onClick={onCellClick}
+                  onMouseEnter={onCellHover}
+                  onMouseLeave={onCellHoverLeave}
+                />
+              );
+            })
+          )}
 
-        {hoveredCell && selectedItem && (
-          <HoverPreview
-            hoveredCell={hoveredCell}
-            selectedItem={selectedItem}
-            isValid={isHoveredValid}
-            gridSize={gridSize}
-          />
-        )}
+          {placedItems.map((item) => (
+            <PlacedItem key={`area-${item.id}`} item={item} gridSize={gridSize} />
+          ))}
 
-        {placedItems.map(item => (
-          <ItemOverlay
-            key={`item-${item.id}`}
-            item={item}
-            gridSize={gridSize}
-            deleteMode={deleteMode}
-            hasSelectedItem={!!selectedItem}
-            onRemove={onRemoveItem}
-            onMove={onMoveItem}
-          />
-        ))}
+          {hoveredCell && selectedItem && (
+            <HoverPreview
+              hoveredCell={hoveredCell}
+              selectedItem={selectedItem}
+              isValid={isHoveredValid}
+              gridSize={gridSize}
+            />
+          )}
+
+          {placedItems.map((item) => (
+            <ItemOverlay
+              key={`item-${item.id}`}
+              item={item}
+              gridSize={gridSize}
+              deleteMode={deleteMode}
+              hasSelectedItem={!!selectedItem}
+              onRemove={onRemoveItem}
+              onMove={onMoveItem}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 };
-

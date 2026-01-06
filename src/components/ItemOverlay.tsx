@@ -19,8 +19,8 @@ export const ItemOverlay: React.FC<ItemOverlayProps> = ({
   onRemove,
   onMove,
 }) => {
-  const centerX = item.x + Math.floor(item.size / 2);
-  const centerY = item.y + Math.floor(item.size / 2);
+  const centerX = item.x + Math.floor(item.width / 2);
+  const centerY = item.y + Math.floor(item.height / 2);
 
   const shouldCaptureEvents = !hasSelectedItem || deleteMode;
 
@@ -31,8 +31,8 @@ export const ItemOverlay: React.FC<ItemOverlayProps> = ({
         style={{
           left: item.x * gridSize,
           top: item.y * gridSize,
-          width: item.size * gridSize,
-          height: item.size * gridSize,
+          width: item.width * gridSize,
+          height: item.height * gridSize,
           zIndex: 35,
           pointerEvents: shouldCaptureEvents ? 'auto' : 'none',
         }}

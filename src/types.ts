@@ -5,10 +5,26 @@ export type Item = {
   itemSize: number;
   color: string;
   icon: string;
-  itemType: 'crop' | 'sprinkler' | 'tree' | 'scarecrow' | 'machine'
+  itemType: 'crop' | 'sprinkler' | 'tree' | 'scarecrow' | 'machine' | 'building' | 'other';
 };
 
-export type PlacedItem = Item & {
+export type ItemV2 = {
+  id: string;
+  name: string;
+  itemType: string;
+
+  width: number;
+  height: number;
+
+  placement: "block" | "radius";
+  radius?: number;
+
+  color: string;
+  icon: string;
+};
+
+
+export type PlacedItem = ItemV2 & {
   x: number;
   y: number;
 };
